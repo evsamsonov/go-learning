@@ -13,7 +13,7 @@ func sort(array []int) []int {
 	for i := 0; i < len(newArray); i++ {
 		minIndex := findMinIndex(array)
 		newArray[i] = array[minIndex]
-		array = append(array[:minIndex], array[minIndex + 1:]...)
+		array = append(array[:minIndex], array[minIndex+1:]...)
 	}
 
 	return newArray

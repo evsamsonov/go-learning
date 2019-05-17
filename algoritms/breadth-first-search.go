@@ -41,5 +41,5 @@ func search(name string) bool {
 }
 
 func isDragDialerPerson(name string) bool {
-	return string(name[len(name) - 1]) == "m"
+	return string(name[len(name)-1]) == "m"
 }

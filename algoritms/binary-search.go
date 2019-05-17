@@ -14,7 +14,7 @@ func find(list []int, value int) (int, bool) {
 	low := 0
 	high := len(list) - 1
 
-	for ; low <= high ; {
+	for low <= high {
 		mid = (high + low) / 2
 		guess = list[mid]
 

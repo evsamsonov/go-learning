@@ -5,7 +5,7 @@ import (
 	"math/rand"
 )
 
-func main()  {
+func main() {
 	array := []int{2323, 432, 12, 534, 76, 0, 3, 500, 1}
 	fmt.Println(quicksort(array))
 }
@@ -22,7 +22,7 @@ func quicksort(array []int) []int {
 	var greater []int
 	for index, num := range array {
 		if pivotIndex == index {
-			continue;
+			continue
 		}
 
 		if num < pivot {

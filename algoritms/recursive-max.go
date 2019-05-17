@@ -4,7 +4,7 @@ func main() {
 	println(max([]int{1, 9, 2, 10, 0, 3, 11, 32}))
 }
 
-func max(array [] int) int {
+func max(array []int) int {
 	if len(array) == 2 {
 		if array[0] > array[1] {
 			return array[0]
