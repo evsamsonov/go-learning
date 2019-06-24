@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	netUrl "net/url" // Так можно задать алиас
 	"os"
 	"strings"
 	"time"
-	netUrl "net/url"	// Так можно задать алиас
 )
 
 func main() {
@@ -53,7 +53,7 @@ func parallelFetch(url string, ch chan<- string) {
 		os.Exit(1)
 	}
 
-	fileName := strings.ReplaceAll(u.Hostname(), ".", "_", )
+	fileName := strings.ReplaceAll(u.Hostname(), ".", "_")
 	f, err := os.Create(fileName)
 	if err != nil {
 		ch <- fmt.Sprintf("fetch: write %s: %v\n", fileName, err)
