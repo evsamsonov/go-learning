@@ -1,5 +1,10 @@
 package main
 
+import "sync"
+
+// Компилировать вместе с 1_4_lissajous.go, предварительно закомментировав main() в 1_4_lissajous.go
+//  go build 1_4_lissajous.go 1_7_webserver2.go
+
 import (
 	"fmt"
 	"log"
@@ -13,6 +18,9 @@ var count int
 func main() {
 	http.HandleFunc("/", urlHandler)
 	http.HandleFunc("/count", countHandler)
+	http.HandleFunc("/lissajous", func(writer http.ResponseWriter, request *http.Request) {
+		lissajous(writer)
+	})
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
 
