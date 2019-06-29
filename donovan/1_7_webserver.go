@@ -11,7 +11,7 @@ func main() {
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
 
-func handler(w http.ResponseWriter, r *http.Request)  {
+func handler(w http.ResponseWriter, r *http.Request) {
 	// %q - экранированный символьный литерал
 	fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
 }

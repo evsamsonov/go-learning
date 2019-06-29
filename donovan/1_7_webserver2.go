@@ -36,5 +36,3 @@ func countHandler(writer http.ResponseWriter, request *http.Request) {
 	fmt.Fprintf(writer, "Count %d\n", count)
 	mu.Unlock()
 }
-
-

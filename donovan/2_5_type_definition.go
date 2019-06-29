@@ -3,13 +3,13 @@ package main
 import "fmt"
 
 // Определение типа
-type Celsius 	float64
-type Fahrenheit  float64
+type Celsius float64
+type Fahrenheit float64
 
 const (
 	AbsoluteZeroC Celsius = -273.15
 	FreezingC     Celsius = 0
-	BoilingC 	  Celsius = 100
+	BoilingC      Celsius = 100
 )
 
 var initValue string
@@ -32,7 +32,7 @@ func main() {
 	fmt.Println(Celsius(0) == 32)
 
 	// Или использовать приведение типа
-	fmt.Println(Celsius(0) ==  Celsius(Fahrenheit(32)))
+	fmt.Println(Celsius(0) == Celsius(Fahrenheit(32)))
 
 	fmt.Println(AbsoluteZeroC.String())
 
@@ -40,7 +40,7 @@ func main() {
 }
 
 func celsiusToFahrenheit(c Celsius) Fahrenheit {
-	return Fahrenheit(c * 9 / 5 + 32)			// Создание значения нового типа Fahrenheit()
+	return Fahrenheit(c*9/5 + 32) // Создание значения нового типа Fahrenheit()
 }
 
 func fahrenheitToCelsius(f Fahrenheit) Celsius {
