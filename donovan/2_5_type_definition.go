@@ -37,6 +37,7 @@ func main() {
 	fmt.Println(AbsoluteZeroC.String())
 
 	fmt.Println(initValue)
+
 }
 
 func celsiusToFahrenheit(c Celsius) Fahrenheit {
