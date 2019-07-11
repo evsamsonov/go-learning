@@ -10,12 +10,14 @@ func main() {
 		fmt.Println(slice, cap(slice))
 	}
 
+	slice = appendInt(slice, 1, 2, 3)
+	fmt.Println(slice, cap(slice))
 }
 
-func appendInt(slice []int, elem int) []int {
+func appendInt(slice []int, values ...int) []int {
 	var newSlice []int
 
-	newLen := len(slice) + 1
+	newLen := len(slice) + len(values)
 	if newLen <= cap(slice) {
 		// Есть место, расширяем срез
 		newSlice = slice[:newLen]
@@ -30,6 +32,6 @@ func appendInt(slice []int, elem int) []int {
 		copy(newSlice, slice) // Встроенная функция для копирования
 	}
 
-	newSlice[len(slice)] = elem
+	copy(newSlice[len(slice):], values)
 	return newSlice
 }
