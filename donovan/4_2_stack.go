@@ -17,8 +17,8 @@ func (s *Stack) Push(v int) *Stack {
 }
 
 func (s *Stack) Pop() int {
-	result := s.slice[len(s.slice) - 1]
-	s.slice = s.slice[:len(s.slice) - 1]
+	result := s.slice[len(s.slice)-1]
+	s.slice = s.slice[:len(s.slice)-1]
 	return result
 }
 
@@ -37,5 +37,3 @@ func main() {
 
 	fmt.Println(stack)
 }
-
-

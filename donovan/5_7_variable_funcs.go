@@ -4,10 +4,10 @@ import "fmt"
 
 func main() {
 	fmt.Println(sum())
-	fmt.Println(sum(1, 2, 3))	// При вызове создается массив и срез на весь массив, который передается в функцию
+	fmt.Println(sum(1, 2, 3)) // При вызове создается массив и срез на весь массив, который передается в функцию
 
 	numbers := []int{4, 5, 6}
-	fmt.Println(sum(numbers...))		// Если параметры уже в срезе
+	fmt.Println(sum(numbers...)) // Если параметры уже в срезе
 }
 
 func sum(values ...int) int {

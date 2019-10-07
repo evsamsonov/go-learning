@@ -26,7 +26,7 @@ func NewDollars(value string) Dollars {
 }
 
 func (d Dollars) String() string {
-	return fmt.Sprintf("%d.%d", d / 100, d % 100)
+	return fmt.Sprintf("%d.%d", d/100, d%100)
 }
 
 type database map[string]Dollars

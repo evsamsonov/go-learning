@@ -12,7 +12,6 @@ func main() {
 	fmt.Println(*temp)
 }
 
-
 // Определение своего флага
 type celsiusFlag struct {
 	Celsius
