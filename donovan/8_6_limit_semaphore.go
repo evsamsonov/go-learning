@@ -10,6 +10,7 @@ func main() {
 
 // Ограничивающий семафор на 20 горутин
 var limitSemaphore = make(chan struct{}, 20)
+
 func doSomething() {
 	fmt.Println(cap(limitSemaphore))
 
