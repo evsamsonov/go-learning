@@ -35,6 +35,12 @@ func main() {
 		close(fileSizes)
 	}()
 
+	go func() {
+		// Прерывание при нажатии любой кнопки
+		os.Stdin.Read(make([]byte, 1))
+		close(done)
+	}()
+
 	// Периодический вывод результата работы
 	var tick <-chan time.Time
 	if *verbose {
@@ -47,6 +53,12 @@ func main() {
 loop:
 	for {
 		select {
+		case <-done:
+			// Почистим канал с размером файлов
+			for range fileSizes {
+			}
+			// panic("")  		Хак для проверки все ли горутины завершились - в стеке должна быть одна горутина
+			return
 		case size, ok := <-fileSizes:
 			if !ok {
 				break loop // указывает, что нужно выйти из цикла, помеченного меткой loop
@@ -70,6 +82,11 @@ func printResult(fileCount int64, fileBytes int64) (int, error) {
 
 func walkDir(dirName string, waitGroup *sync.WaitGroup, fileSizes chan<- int64) {
 	defer waitGroup.Done()
+
+	if cancelled() {
+		return
+	}
+
 	for _, entry := range fetchDirs(dirName) {
 		if entry.IsDir() {
 			subDir := filepath.Join(dirName, entry.Name())
@@ -95,4 +112,18 @@ func fetchDirs(dirName string) []os.FileInfo {
 	}
 
 	return entries
+}
+
+// Механизм для прекращения работы программы
+// основан на том, что при закрытии канала
+// мы получим нулевое значение
+var done = make(chan struct{})
+
+func cancelled() bool {
+	select {
+	case <-done:
+		return true
+	default:
+		return false
+	}
 }
