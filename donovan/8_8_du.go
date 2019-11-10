@@ -47,8 +47,6 @@ func main() {
 		tick = time.Tick(500 * time.Millisecond)
 	}
 
-	fmt.Println("test")
-
 	var fileCount, fileBytes int64
 loop:
 	for {
@@ -57,7 +55,8 @@ loop:
 			// Почистим канал с размером файлов
 			for range fileSizes {
 			}
-			// panic("")  		Хак для проверки все ли горутины завершились - в стеке должна быть одна горутина
+
+			//fmt.Println(runtime.NumGoroutine())	// Проверка утечки горутин
 			return
 		case size, ok := <-fileSizes:
 			if !ok {
