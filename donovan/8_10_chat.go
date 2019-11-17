@@ -25,15 +25,15 @@ func main() {
 	}
 }
 
-type client chan<-string		// Канал для исходящих сообщений
+type client chan<- string // Канал для исходящих сообщений
 var (
 	entering = make(chan client)
-	leaving = make(chan client)
-	messages = make(chan string)	// Все входящие сообщения клиента
+	leaving  = make(chan client)
+	messages = make(chan string) // Все входящие сообщения клиента
 )
 
 func broadcaster() {
-	clients := make(map[client]bool)		// Все подключенные клиенты
+	clients := make(map[client]bool) // Все подключенные клиенты
 	for {
 		select {
 		case msg := <-messages:
@@ -50,7 +50,7 @@ func broadcaster() {
 }
 
 func handleConnChat(conn net.Conn) {
-	ch := make(chan string)		// Исходящие сообщения клиентов
+	ch := make(chan string) // Исходящие сообщения клиентов
 	go clientWriter(conn, ch)
 
 	who := conn.RemoteAddr().String()
