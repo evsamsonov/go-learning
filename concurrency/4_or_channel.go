@@ -32,6 +32,13 @@ func main() {
 				case <-or(append(channels[3:], orDone)...):
 				}
 			}
+
+			// Это выглядит проще, но будет больше рекурсивных вызовов
+			//select {
+			//case <-channels[0]:
+			//case <-channels[1]:
+			//case <-or(append(channels[2:], orDone)...):
+			//}
 		}()
 		return orDone
 	}
@@ -51,6 +58,7 @@ func main() {
 		sig(time.Second*2),
 		sig(time.Second*10),
 		sig(time.Second),
+		sig(time.Hour),
 	)
 	<-orDone
 	fmt.Printf("after %v", time.Since(start))
