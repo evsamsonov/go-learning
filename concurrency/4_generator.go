@@ -22,6 +22,7 @@ func main() {
 		return result
 	}
 
+	// Позволяет выбрать ограниченное кол-во значений из генератора
 	take := func(done <-chan struct{}, valuesChan <-chan interface{}, num int) <-chan interface{} {
 		result := make(chan interface{})
 		go func() {
