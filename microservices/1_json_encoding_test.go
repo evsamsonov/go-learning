@@ -1,4 +1,4 @@
-package microservices
+package main
 
 import (
 	"encoding/json"
