@@ -10,16 +10,18 @@ import (
 
 const port = 1234
 
-type helloWorldHandler struct{}
+type HelloWorldHandler struct{}
 
-func (h *helloWorldHandler) HelloWorld(args *contract.HelloWorldRequest, reply *contract.HelloWorldResponse) error {
+func (h *HelloWorldHandler) HelloWorld(args *contract.HelloWorldRequest, reply *contract.HelloWorldResponse) error {
 	reply.Message = "Hello, " + args.Name
 	return nil
 }
 
 func StartServer() {
-	helloWorld := &helloWorldHandler{}
-	rpc.Register(helloWorld)
+	err := rpc.Register(&HelloWorldHandler{})
+	if err != nil {
+		log.Fatalf("Failed to register: %v", err)
+	}
 
 	l, err := net.Listen("tcp", fmt.Sprintf(":%v", port))
 	if err != nil {

@@ -1,7 +1,14 @@
 package main
 
-import "github.com/evsamsonov/go-learning/microservices/1_rpc/server"
+import (
+	"fmt"
+	"github.com/evsamsonov/go-learning/microservices/1_rpc/client"
+	"github.com/evsamsonov/go-learning/microservices/1_rpc/server"
+)
 
 func main() {
-	server.StartServer()
+	go server.StartServer()
+
+	cl := client.CreateClient()
+	fmt.Println(cl.PerformRequest())
 }
