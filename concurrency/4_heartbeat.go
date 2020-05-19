@@ -61,15 +61,18 @@ func main() {
 		select {
 		case _, ok := <-heartbeat:
 			if ok == false {
+				fmt.Println("heartbeat has been closed")
 				return
 			}
 			fmt.Println("pulse")
 		case r, ok := <-results:
 			if ok == false {
+				fmt.Println("results has been closed")
 				return
 			}
 			fmt.Printf("results %v\n", r.Second())
-		case <-time.After(timeout):
+		case <-time.After(timeout): // Новый таймер в каждом цикле
+			fmt.Println("worker goroutine is not healthy!")
 			return
 		}
 	}
