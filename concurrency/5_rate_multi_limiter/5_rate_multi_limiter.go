@@ -83,10 +83,10 @@ type APIConnection struct {
 }
 
 func Open() *APIConnection {
-	//secondLimit := rate.NewLimiter(Per(2, time.Second), 1)
+	secondLimit := rate.NewLimiter(Per(2, time.Second), 1)
 	minuteLimit := rate.NewLimiter(Per(10, time.Minute), 10)
 	return &APIConnection{
-		rateLimiter: MultiLimiter(minuteLimit),
+		rateLimiter: MultiLimiter(secondLimit, minuteLimit),
 	}
 }
 
