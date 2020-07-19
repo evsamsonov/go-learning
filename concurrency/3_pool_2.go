@@ -15,9 +15,6 @@ func main() {
 		},
 	}
 
-	t := calcPool.Get()
-	_ = t
-
 	calcPool.Put(calcPool.New())
 	calcPool.Put(calcPool.New())
 	calcPool.Put(calcPool.New())
