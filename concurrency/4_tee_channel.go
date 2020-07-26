@@ -72,7 +72,7 @@ func main() {
 			if !ok {
 				return
 			}
-			fmt.Printf("out1: %v\n", val)
+			fmt.Printf("out2: %v\n", val)
 		}
 	}
 }
