@@ -6,6 +6,14 @@ import (
 	"testing"
 )
 
+// see https://habr.com/ru/company/mailru/blog/510200/
+//
+// $ sysctl -a | grep cacheline
+// hw.cachelinesize: 64
+//
+// $ sysctl hw.l1dcachesize
+// hw.l1dcachesize: 32768
+
 const loopLen = 1000
 
 type SimpleStruct struct {
