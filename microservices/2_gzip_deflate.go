@@ -1,6 +1,7 @@
 package main
 
 import (
+	"compress/flate"
 	"compress/gzip"
 	"encoding/json"
 	"log"
@@ -49,7 +50,8 @@ func (h *GzipHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if strings.Contains(encodings, "deflate") {
-		panic("deflate not implemented")
+		h.serveDeflate(w, r)
+		return
 	}
 
 	h.next.ServeHTTP(w, r)
@@ -75,6 +77,36 @@ type GzipResponseWriter struct {
 }
 
 func (w GzipResponseWriter) Write(b []byte) (int, error) {
+	if _, ok := w.Header()["Content-Type"]; !ok {
+		w.Header().Set("Content-Type", http.DetectContentType(b))
+	}
+	return w.gw.Write(b)
+}
+
+func (h *GzipHandler) serveDeflate(w http.ResponseWriter, r *http.Request) {
+	gw, err := flate.NewWriter(w, 5)
+	if err != nil {
+		http.Error(w, "Failed to content encoding", 500)
+		return
+	}
+	defer gw.Close()
+
+	deflateResponseWriter := DeflateResponseWriter{
+		ResponseWriter: w,
+		gw:             gw,
+	}
+
+	w.Header().Set("Content-Encoding", "deflate")
+	h.next.ServeHTTP(deflateResponseWriter, r)
+}
+
+type DeflateResponseWriter struct {
+	http.ResponseWriter
+
+	gw *flate.Writer
+}
+
+func (w DeflateResponseWriter) Write(b []byte) (int, error) {
 	if _, ok := w.Header()["Content-Type"]; !ok {
 		w.Header().Set("Content-Type", http.DetectContentType(b))
 	}
