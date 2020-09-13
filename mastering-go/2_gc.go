@@ -19,11 +19,12 @@ func main() {
 		s := make([]byte, 50000000)
 		_ = s
 	}
+	runtime.GC() // Так можно вызвать сборку мусора принудителоно
 	printStats()
 	// mem.Alloc:  72288
 	// mem.TotalAlloc:  500125824
 	// mem.HeapAlloc:  72288
-	// mem.NumGC:  10
+	// mem.NumGC:  11 (10 на каждую итерацию, +1 принудительно)
 	// -----
 }
 
