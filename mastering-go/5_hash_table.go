@@ -10,6 +10,9 @@ type HashNode struct {
 }
 
 type HashTable struct {
+	// Пример из книги так себе
+	// Создаем хеш таблицу, а внутри используем нативную хеш таблицу
+	// корректнее было бы использовать массив []*HashNode
 	Table map[int]*HashNode
 	Size  int
 }
