@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// See also priority queue
+
 type IntHeap []int
 
 func (h IntHeap) Len() int {
