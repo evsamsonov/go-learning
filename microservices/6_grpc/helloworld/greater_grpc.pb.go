@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GreaterClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+	SayStreamHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (Greater_SayStreamHelloClient, error)
 }
 
 type greaterClient struct {
@@ -38,11 +39,44 @@ func (c *greaterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...
 	return out, nil
 }
 
+func (c *greaterClient) SayStreamHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (Greater_SayStreamHelloClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Greater_ServiceDesc.Streams[0], "/helloword.Greater/SayStreamHello", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &greaterSayStreamHelloClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Greater_SayStreamHelloClient interface {
+	Recv() (*HelloReply, error)
+	grpc.ClientStream
+}
+
+type greaterSayStreamHelloClient struct {
+	grpc.ClientStream
+}
+
+func (x *greaterSayStreamHelloClient) Recv() (*HelloReply, error) {
+	m := new(HelloReply)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // GreaterServer is the server API for Greater service.
 // All implementations must embed UnimplementedGreaterServer
 // for forward compatibility
 type GreaterServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
+	SayStreamHello(*HelloRequest, Greater_SayStreamHelloServer) error
 	mustEmbedUnimplementedGreaterServer()
 }
 
@@ -52,6 +86,9 @@ type UnimplementedGreaterServer struct {
 
 func (UnimplementedGreaterServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (UnimplementedGreaterServer) SayStreamHello(*HelloRequest, Greater_SayStreamHelloServer) error {
+	return status.Errorf(codes.Unimplemented, "method SayStreamHello not implemented")
 }
 func (UnimplementedGreaterServer) mustEmbedUnimplementedGreaterServer() {}
 
@@ -84,6 +121,27 @@ func _Greater_SayHello_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greater_SayStreamHello_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(HelloRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(GreaterServer).SayStreamHello(m, &greaterSayStreamHelloServer{stream})
+}
+
+type Greater_SayStreamHelloServer interface {
+	Send(*HelloReply) error
+	grpc.ServerStream
+}
+
+type greaterSayStreamHelloServer struct {
+	grpc.ServerStream
+}
+
+func (x *greaterSayStreamHelloServer) Send(m *HelloReply) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // Greater_ServiceDesc is the grpc.ServiceDesc for Greater service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -96,6 +154,12 @@ var Greater_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Greater_SayHello_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "SayStreamHello",
+			Handler:       _Greater_SayStreamHello_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "helloworld/greater.proto",
 }

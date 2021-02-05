@@ -5,6 +5,7 @@ package helloword;
 
 service Greater {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayStreamHello (HelloRequest) returns (stream HelloReply) {}
 }
 
 message HelloRequest {

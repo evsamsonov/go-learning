@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	pb "github.com/evsamsonov/go-learning/microservices/6_grpc/helloworld"
 	"google.golang.org/grpc"
 	"log"
@@ -15,6 +16,16 @@ type server struct {
 func (s *server) SayHello(_ context.Context, req *pb.HelloRequest) (*pb.HelloReply, error) {
 	log.Printf("Received: %v", req.GetName())
 	return &pb.HelloReply{Message: "Hello " + req.GetName()}, nil
+}
+
+func (s *server) SayStreamHello(req *pb.HelloRequest, serv pb.Greater_SayStreamHelloServer) error {
+	for _, sym := range req.GetName() {
+		err := serv.Send(&pb.HelloReply{Message: "Hello " + string(sym)})
+		if err != nil {
+			return fmt.Errorf("failed to send: %w", err)
+		}
+	}
+	return nil
 }
 
 func main() {
