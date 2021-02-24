@@ -1,1 +1,1 @@
-Code samples from various sources
+Golang code samples from various sources
