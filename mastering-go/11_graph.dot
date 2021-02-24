@@ -1,5 +1,5 @@
 # graphviz
-#
+# dot -T png 11_graph.dot  -o graph.png
 digraph G
 {
     graph [dpi = 300, bgcolor = "gray"];
