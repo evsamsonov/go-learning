@@ -40,7 +40,6 @@ func main() {
 		}
 
 		buf := make([]byte, 1024)
-		// todo ReadFromUDP блокируется, ответ не приходит
 		n, _, err := conn.ReadFromUDP(buf)
 		if err != nil {
 			log.Fatal(err)
