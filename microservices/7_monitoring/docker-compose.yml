@@ -15,6 +15,18 @@ services:
     ports:
       - 3000:3000
 
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro'
+    ports:
+      - 9100:9100
+
   app:
     build: .
     ports:
