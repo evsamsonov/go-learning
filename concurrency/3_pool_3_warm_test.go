@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-//  go test 3_pool_3_test.go -benchtime=10s -bench=.
+//  go test 3_pool_3_warm_test.go -benchtime=10s -bench=.
 func init() {
 	daemonStarted := startNetworkDaemonWarm()
 	daemonStarted.Wait()
