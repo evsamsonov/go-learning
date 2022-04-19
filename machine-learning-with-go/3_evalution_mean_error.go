@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	file, err := os.Open("machine-learning-with-go/data/continuous_data.csv")
+	file, err := os.Open("data/continuous_data.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
