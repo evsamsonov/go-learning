@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/kniren/gota/dataframe"
+	"github.com/go-gota/gota/dataframe"
 	"gonum.org/v1/gonum/floats"
 	"gonum.org/v1/gonum/stat"
 	"log"

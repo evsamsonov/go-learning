@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/kniren/gota/dataframe"
+	"github.com/go-gota/gota/dataframe"
 	"log"
 	"os"
 )
